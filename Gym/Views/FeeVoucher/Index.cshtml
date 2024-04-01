@@ -1,0 +1,150 @@
+﻿@model IEnumerable<Gym.ViewModel.GymTraineeDetailViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    
+    body {
+        background-color: #f8f9fa; 
+    }
+
+    .container {
+        background-color: #fff; 
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    table {
+        background-color: #fff; 
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    th {
+        background-color: #f0f0f0; 
+    }
+
+    td {
+        background-color: #ffffff; 
+    }
+
+    .btn-primary {
+        background-color: #007bff; 
+        border-color: #007bff; 
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3; 
+            border-color: #0056b3; 
+        }
+
+    .btn-success {
+        background-color: #28a745; 
+        border-color: #28a745; 
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34; 
+        }
+
+    .btn-danger {
+        background-color: #dc3545; 
+        border-color: #dc3545; 
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333; 
+            border-color: #bd2130; 
+        }
+</style>
+
+<h1>Fee Collection List</h1>
+
+<div class="container">
+    <div class="form-group">
+        <form method="post" asp-controller="Feevoucher" asp-action="Index">
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>List</label>
+                        <input type="radio" value="list" name="selected_rbt" @(ViewBag.Selectedbutton == "list" ? "checked" : "") />
+                        <label>Paid</label>
+                        <input type="radio" value="Paid" name="selected_rbt" @(ViewBag.Selectedbutton == "Paid" ? "checked" : "") />
+                        <label>Un-Paid</label>
+                        <input type="radio" value="Un-Paid" name="selected_rbt" @(ViewBag.Selectedbutton == "Un-Paid" ? "checked" : "") />
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="form-group">
+                       @* <label asp="" class="control-label" style="margin-right:10px"> Current Date </label>
+                        <input id="selectedDate" type="datetime-local" name="selectedDate" value="@ViewBag.selectedDate" />*@
+                        <input type="submit" value="Get-Records" class="btn btn-sm btn-primary" style="margin-left:5px" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.gymTrainee.FirstName)</th>
+                <th>@Html.DisplayNameFor(model => model.gymTrainee.LastName)</th>
+                <th>@Html.DisplayNameFor(model => model.gymTrainee.ContactNo)</th>
+                <th>@Html.DisplayNameFor(model => model.gymTrainee.Address)</th>
+                <th>@Html.DisplayNameFor(model => model.monthlyFeeVoucher.Remarks)</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.gymTrainee.FirstName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.gymTrainee.LastName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.gymTrainee.ContactNo)</td>
+                        <td>@Html.DisplayFor(modelItem => item.gymTrainee.Address)</td>
+                        <td>@Html.DisplayFor(modelItem => item.monthlyFeeVoucher.Remarks)</td>
+                        <td>
+                            @if (item.monthlyFeeVoucher != null && item.monthlyFeeVoucher.Status == "Paid")
+                            {
+                                @Html.DisplayFor(modelItem => item.monthlyFeeVoucher.Status)
+                                <br />
+                                <a href="@Url.Action("EmployeeReport", "Report", new { id = item.monthlyFeeVoucher.MonthlyFeeVoucherID })" class="btn btn-primary">
+                                    <i class="fas fa-print"></i> ExporttoPdf
+                                </a>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.monthlyFeeVoucher.Status)
+                                <a href="@Url.Action("PayMonthlyFee", new { id = item.gymTrainee.TraineeId })" class="btn btn-success">
+                                    <i class="fas fa-money-bill-wave"></i> Pay Now
+                                </a>
+                            }
+                        </td>
+                        <td>
+                            @if (item.monthlyFeeVoucher != null && item.monthlyFeeVoucher.Status == "Paid")
+                            {
+                                <form asp-action="Delete" asp-route-id="@item.monthlyFeeVoucher.MonthlyFeeVoucherID">
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete the selected record?')">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

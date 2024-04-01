@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Gym.ViewModel.GymTraineeDetailViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="row">
+    <div class="col-md-12 offset-md-1">
+        <h3>Gym Trainees</h3>
+        <input id="myInput" type="text" placeholder="Search.." class="form-control mb-3">
+        <table id="myTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>@Html.DisplayNameFor(model => model.gymTrainee.FirstName)</th>
+                    <th>@Html.DisplayNameFor(model => model.gymTrainee.LastName)</th>
+                    <th>@Html.DisplayNameFor(model => model.gymTrainee.ContactNo)</th>
+                    <th>@Html.DisplayNameFor(model => model.gymTrainee.Age)</th>
+                    <th>@Html.DisplayNameFor(model => model.gymTrainee.Height)</th>
+                    <th>@Html.DisplayNameFor(model => model.gymTrainee.Weight)</th>
+                    <th>@Html.DisplayNameFor(model => model.gymTrainee.Gender)</th>
+                    <th>@Html.DisplayNameFor(model => model.gymTrainee.Address)</th>
+                    <th>@Html.DisplayNameFor(model => model.gymTrainee.CreationDate)</th>
+                    <th>TrainingLevel</th>
+                    <th>@Html.DisplayNameFor(model => model.gymTrainee.MonthlyFee)</th>
+                    <th>
+                        <a asp-action="SaveTraineeInfo" class="btn btn-sm btn-success" style="width:92px !important">
+                            <i class="fa-solid fa-plus"></i> Create
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><img src="/Images/@item.gymTrainee.ImageName" style="height:100px;" class="img-fluid"></td>
+                        <td>@Html.DisplayFor(modelItem => item.gymTrainee.FirstName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.gymTrainee.LastName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.gymTrainee.ContactNo)</td>
+                        <td>@Html.DisplayFor(modelItem => item.gymTrainee.Age)</td>
+                        <td>@Html.DisplayFor(modelItem => item.gymTrainee.Height)</td>
+                        <td>@Html.DisplayFor(modelItem => item.gymTrainee.Weight)</td>
+                        <td>@Html.DisplayFor(modelItem => item.gymTrainee.Gender)</td>
+                        <td>@Html.DisplayFor(modelItem => item.gymTrainee.Address)</td>
+                        <td>@Html.DisplayFor(modelItem => item.gymTrainee.CreationDate)</td>
+                        <td>@Html.DisplayFor(modelItem => item.gymTrainee.TrainingLevel.TrainingLevelName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.gymTrainee.MonthlyFee)</td>
+                        <td>
+                            <form asp-action="Delete" asp-route-id="@item.gymTrainee.TraineeId">
+                                <div class="btn-group btn-group-sm">
+                                    <a asp-action="Edit" asp-route-id="@item.gymTrainee.TraineeId" class="btn btn-warning">
+                                        <i class="fa-solid fa-pen-to-square"></i> Edit
+                                    </a>
+                                    <button type="submit" class="btn btn-danger"
+                                        onclick="return confirm('Are you sure? you want to delete the selected record')">
+                                        <i class="far fa-trash-alt"></i> Delete
+                                    </button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

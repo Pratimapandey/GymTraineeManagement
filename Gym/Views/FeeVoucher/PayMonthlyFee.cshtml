@@ -1,0 +1,124 @@
+﻿@model Gym.ViewModel.FeeVoucherDetailsViewModel
+
+@{
+    ViewData["Title"] = "Pay Monthly Fee";
+}
+
+<style>
+   
+    body {
+        background-color: #f8f9fa; 
+    }
+
+    .container {
+        background-color: #fff; 
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+        max-width: 800px; 
+        margin: 20px auto; 
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d; 
+        border-color: #6c757d; 
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268; 
+            border-color: #545b62; 
+        }
+
+    .btn-primary {
+        background-color: #007bff; 
+        border-color: #007bff; 
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3; 
+            border-color: #0056b3; 
+        }
+
+    .bg-primary {
+        background-color: #007bff !important; 
+    }
+
+    .bg-secondary {
+        background-color: #6c757d !important; 
+    }
+
+    .text-white {
+        color: #fff !important; 
+    }
+</style>
+
+<div class="container">
+    <h4>Fee Collection Details</h4>
+    <hr />
+    <form asp-action="PayMonthlyFee" method="post" enctype="multipart/form-data" autocomplete="off">
+        <input type="hidden" name="traineeId" value="@Model.gymTrainee.TraineeId" />
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="p-3 mb-2 bg-primary text-white">Basic Information</div>
+
+                <div class="form-group">
+                    <label asp-for="gymTrainee.FirstName" class="control-label"></label>
+                    <input asp-for="gymTrainee.FirstName" class="form-control" readonly="true" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="gymTrainee.LastName" class="control-label"></label>
+                    <input asp-for="gymTrainee.LastName" class="form-control" readonly="true" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="gymTrainee.Address" class="control-label"></label>
+                    <input asp-for="gymTrainee.Address" class="form-control" readonly="true" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="gymTrainee.MonthlyFee" class="control-label"></label>
+                    <input asp-for="gymTrainee.MonthlyFee" class="form-control" readonly="true" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="p-3 mb-2 bg-secondary text-white">Fee Information</div>
+
+                <div class="form-group">
+                    <label asp-for="monthlyFeeVoucher.FeeDate" class="control-label"></label>
+                    <input asp-for="monthlyFeeVoucher.FeeDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="monthlyFeeVoucher.Remarks" class="control-label"></label>
+                    <textarea asp-for="monthlyFeeVoucher.Remarks" rows="5" class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <a asp-action="Index" class="btn btn-secondary btn-block">View All</a>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="submit" value="Submit" class="btn btn-primary btn-block" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="container text-center">
+    <a asp-action="Edit" asp-route-id="@Model.gymTrainee.TraineeId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+    </

@@ -1,0 +1,155 @@
+﻿@model Gym.Models.GymTrainee
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+<div class="row">
+    <div class="col-md-6 offset-md-4">
+        <h3>Gym Trainee information</h3>
+        <hr />
+
+        <form asp-action="SaveTraineeInfo" enctype="multipart/form-data" autocomplete="off">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TraineeId" />
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContactNo" class="control-label"></label>
+                <input asp-for="ContactNo" class="form-control" />
+                <span asp-validation-for="ContactNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Age" class="control-label"></label>
+                <input asp-for="Age" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Height" class="control-label"></label>
+                <input asp-for="Height" class="form-control" />
+                <span asp-validation-for="Height" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Weight" class="control-label"></label>
+                <input asp-for="Weight" class="form-control" />
+                <span asp-validation-for="Weight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label"></label>
+                <div class="form-check">
+                    <input type="radio" asp-for="Gender" value="Male" class="form-check-input" />
+                    <label class="form-check-label">Male</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" asp-for="Gender" value="Female" class="form-check-input" />
+                    <label class="form-check-label">Female</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" asp-for="Gender" value="Other" class="form-check-input" />
+                    <label class="form-check-label">Other</label>
+                </div>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            @if (Model != null && Model.ImageName != null)
+            {
+                <img src="@("~/Images/" + Model.ImageName)" asp-append-version="true" width="50px" height="50px" />
+            }
+
+
+
+
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label">ImageName</label>
+                <input asp-for="ImageFile" type="file" class="form-control" multiple />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+                <img id="imgpreview" src="#" style="display:none" width="60px" height="80px" alt="Preview Img" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CreationDate" class="control-label"></label>
+                <input asp-for="CreationDate" class="form-control" />
+                <span asp-validation-for="CreationDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Training Level</label>
+                <select id="drpTrainingLevelList" asp-for="TrainingLevelID" name="TrainingLevelID" class="form-control" asp-items="@ViewBag.TLL">
+                    <option value="-1">--Select Training Level--</option>
+                </select>
+            </div>
+
+
+
+            <div class="form-group">
+                <label asp-for="MonthlyFee" class="control-label"></label>
+                <input asp-for="MonthlyFee" class="form-control" />
+                <span asp-validation-for="MonthlyFee" class="text-danger"></span>
+            </div>
+            @*
+            <div class="form-group">
+            <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+            </form>
+            </div>
+            </div>*@
+            <div class="row mt-2">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary w-100" onclick="Validateddl()" />
+
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <a asp-action="Index" class="btn btn-secondary w-100">View All</a>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#Profileimg").change(function () {
+            if (this.files && this.files[0]) {
+                $('#imgpreview').show();
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgpreview').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    });
+</script>
